@@ -15,7 +15,8 @@ struct BookwormApp: App {
             ContentView()
         }
         // Step 2: loading that model. This code will tell SwiftData to prepare some storage for us on the iPhone, which is where it will read and write Student objects.
-        .modelContainer(for: Student.self)
+//        .modelContainer(for: Student.self)
         // A model container is SwiftData's name for where it stores its data. The first time your app runs this means SwiftData has to create the underlying database file, but in future runs, it will load the database it made previously.
+        .modelContainer(for: Book.self)
     }
 }
