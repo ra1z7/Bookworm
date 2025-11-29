@@ -33,6 +33,7 @@ struct RatingView: View {
                 } label: {
                     image(for: number)
                         .foregroundStyle(number > rating ? offColor : onColor)
+                        .symbolEffect(.bounce, value: rating)
                 }
             }
         }
