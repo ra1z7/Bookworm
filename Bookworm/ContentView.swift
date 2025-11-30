@@ -32,6 +32,9 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Bookworm")
+            .navigationDestination(for: Book.self) { selectedBook in
+                DetailView(book: selectedBook)
+            }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Book", systemImage: "plus") {
