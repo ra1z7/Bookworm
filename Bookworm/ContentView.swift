@@ -21,6 +21,8 @@ struct ContentView: View {
         SortDescriptor(\Book.author)
     ]) var books: [Book]
     
+    @Environment(\.modelContext) var modelContext
+    
     @State private var showingAddBookView = false
     
     var body: some View {
@@ -41,12 +43,17 @@ struct ContentView: View {
                         }
                     }
                 }
+                .onDelete(perform: deleteBooks)
             }
             .navigationTitle("Bookworm")
             .navigationDestination(for: Book.self) { selectedBook in
                 DetailView(book: selectedBook)
             }
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    EditButton()
+                }
+                
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Add Book", systemImage: "plus") {
                         showingAddBookView.toggle()
@@ -56,6 +63,16 @@ struct ContentView: View {
             .sheet(isPresented: $showingAddBookView) {
                 AddBookView()
             }
+        }
+    }
+    
+    func deleteBooks(at offsets: IndexSet) {
+        for offset in offsets {
+            // find this book in our query
+            let bookToDelete = books[offset]
+            
+            // delete it from the model context
+            modelContext.delete(bookToDelete)
         }
     }
 }
