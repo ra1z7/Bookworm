@@ -9,6 +9,10 @@ import SwiftData
 import SwiftUI
 
 struct DetailView: View {
+    @Environment(\.modelContext) var modelContext
+    @Environment(\.dismiss) var dismiss
+    @State private var showingDeleteAlert = false
+    
     let book: Book // Adding this property breaks the DetailView preview because creating a sample Book now requires a SwiftData model context.
     
     var body: some View {
@@ -43,6 +47,22 @@ struct DetailView: View {
         .navigationTitle(book.title)
         .navigationBarTitleDisplayMode(.inline)
         .scrollBounceBehavior(.basedOnSize)
+        .alert("Delete This Book", isPresented: $showingDeleteAlert) {
+            Button("Delete", role: .destructive, action: deleteBook)
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Are You Sure?")
+        }
+        .toolbar {
+            Button("Delete This Book", systemImage: "trash") {
+                showingDeleteAlert = true
+            }
+        }
+    }
+    
+    func deleteBook() {
+        modelContext.delete(book)
+        dismiss()
     }
 }
 
