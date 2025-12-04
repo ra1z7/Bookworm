@@ -37,11 +37,13 @@ struct ContentView: View {
                             VStack(alignment: .leading) {
                                 Text(book.title)
                                     .font(.headline)
+                                    .foregroundStyle(book.rating == 1 ? Color.red : Color.primary)
                                 Text(book.author)
                                     .font(.subheadline)
                             }
                         }
                     }
+                    .listRowBackground(book.rating == 1 ? Color.red.opacity(0.1) : Color.clear)
                 }
                 .onDelete(perform: deleteBooks)
             }
