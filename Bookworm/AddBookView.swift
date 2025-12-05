@@ -18,6 +18,11 @@ struct AddBookView: View {
     @State private var review = ""
     @State private var rating = 3
     
+    @State private var errorTitle = ""
+    @State private var errorMessage = ""
+    @State private var showingMissingFieldAlert = false
+    @State private var showingButtonsForAuthor = false
+    
     let allGenres = ["Fantasy", "Horror", "Kids", "Poetry", "Romance", "Thriller", "Mystery"]
     
     var body: some View {
@@ -41,14 +46,49 @@ struct AddBookView: View {
                 
                 Section {
                     Button("Save") {
-                        let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating)
-                        modelContext.insert(newBook)
-                        dismiss()
+                        if validateInput() {
+                            saveBook()
+                        }
                     }
                 }
             }
             .navigationTitle("Add Book")
+            .alert(errorTitle, isPresented: $showingMissingFieldAlert) {
+                if showingButtonsForAuthor {
+                    Button("No", role: .cancel) { }
+                    Button("Yes", role: .confirm) {
+                        saveBook()
+                    }
+                }
+            } message: {
+                Text(errorMessage)
+            }
         }
+    }
+    
+    func validateInput() -> Bool {
+        if title.isEmpty {
+            errorTitle = "Missing Title"
+            errorMessage = "Please enter book title to save it."
+            showingMissingFieldAlert = true
+            return false
+        }
+        
+        if author.isEmpty {
+            errorTitle = "Missing Author Name"
+            errorMessage = "You didn't entered author's name. Save it as Anonymous?"
+            showingButtonsForAuthor = true
+            showingMissingFieldAlert = true
+            return false
+        }
+        
+        return true
+    }
+    
+    func saveBook() {
+        let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating)
+        modelContext.insert(newBook)
+        dismiss()
     }
 }
 

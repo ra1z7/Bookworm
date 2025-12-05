@@ -38,8 +38,9 @@ struct DetailView: View {
                 .font(.title)
                 .fontWeight(.bold)
             
-            Text(book.review)
+            Text(book.review.isEmpty ? "No Review Written" : book.review)
                 .padding()
+                .foregroundStyle(book.review.isEmpty ? Color.secondary : Color.primary)
             
             RatingView(rating: .constant(book.rating)) // We don’t want users to be able to adjust the rating here, so instead we can use constant binding to turn this into a simple read-only view.
                 .font(.title)
