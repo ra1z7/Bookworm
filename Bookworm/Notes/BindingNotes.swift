@@ -54,3 +54,13 @@ struct BindingNotes: View {
 #Preview {
     BindingNotes()
 }
+
+// REVIEW NOTES
+
+// @Binding lets us share one struct in two places. It's mainly used for creating custom UI components.
+// @Binding can be used with a private properties.
+// @Binding is used for structs, but @Bindable is used for observable classes.
+
+// SwiftData models are classes in Swift. They are designed to be shared, so making them as structs isn't allowed.
+
+// Views presented as sheets doesn't share the same environment as the view that presented them. Views presented as sheets have their own environment, so if you want to share values you need to pass them in.
