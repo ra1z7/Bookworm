@@ -38,6 +38,12 @@ struct DetailView: View {
                 .font(.title)
                 .fontWeight(.bold)
             
+            if book.reviewDate != nil {
+                Text("Reviewed On: \(book.reviewDate!.formatted(date: .abbreviated, time: .shortened))")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+            
             Text(book.review.isEmpty ? "No Review Written" : book.review)
                 .padding()
                 .foregroundStyle(book.review.isEmpty ? Color.secondary : Color.primary)
