@@ -56,7 +56,7 @@ struct AddBookView: View {
             .alert(errorTitle, isPresented: $showingMissingFieldAlert) {
                 if showingButtonsForAuthor {
                     Button("No", role: .cancel) { }
-                    Button("Yes", role: .confirm) {
+                    Button("Yes") {
                         saveBook()
                     }
                 }

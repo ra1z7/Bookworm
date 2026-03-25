@@ -35,6 +35,24 @@ struct RatingView: View {
                         .foregroundStyle(number > rating ? offColor : onColor)
                         .symbolEffect(.bounce, value: rating)
                 }
+                /*
+                .accessibilityLabel("\(number == 1 ? "1 star" : "\(number) stars")")
+                .accessibilityAddTraits(number > rating ? [] : [.isSelected])
+                 // Better SOLUTION below:
+                 */
+            }
+        }
+        .accessibilityElement()
+        .accessibilityLabel(label ?? "Rating")
+        .accessibilityValue(rating == 1 ? "1 star" : "\(rating) stars")
+        .accessibilityAdjustableAction { swipeGestureDirection in
+            switch swipeGestureDirection {
+            case .increment:
+                if rating < maximumRating { rating += 1 }
+            case .decrement:
+                if rating > 1 { rating -= 1 }
+            default:
+                break
             }
         }
         // No matter which star rating you press, it will select 5 stars when used with Form because when we have rows inside a form or a list, SwiftUI likes to assume the rows themselves are tappable. This makes selection easier for users, because they can tap anywhere in a row to trigger the button inside it.
